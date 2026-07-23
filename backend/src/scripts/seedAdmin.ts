@@ -14,22 +14,25 @@ const seedAdmin = async () => {
     console.log('Connected to MongoDB Atlas for seeding...');
 
     const email = 'admin@nextstepplacements.com';
-    const existing = await User.findOne({ email });
-
-    if (existing) {
-      console.log(`ℹ️ Admin user (${email}) already exists.`);
-      process.exit(0);
-    }
-
+    const altEmail = 'admin@makemyaim.com';
     const passwordHash = await bcrypt.hash('AdminPass123!', 10);
-    const admin = await User.create({
-      email,
-      passwordHash,
-      role: 'ADMIN',
-    });
 
-    console.log(`✅ Admin user seeded successfully!`);
-    console.log(`📧 Email: ${admin.email}`);
+    // Upsert primary admin user
+    await User.findOneAndUpdate(
+      { email: email.toLowerCase() },
+      { email: email.toLowerCase(), passwordHash, role: 'ADMIN' },
+      { upsert: true, new: true }
+    );
+
+    // Upsert alt admin user
+    await User.findOneAndUpdate(
+      { email: altEmail.toLowerCase() },
+      { email: altEmail.toLowerCase(), passwordHash, role: 'ADMIN' },
+      { upsert: true, new: true }
+    );
+
+    console.log(`✅ Admin user credentials updated in live MongoDB Atlas!`);
+    console.log(`📧 Email: ${email} OR ${altEmail}`);
     console.log(`🔑 Password: AdminPass123!\n`);
     process.exit(0);
   } catch (err) {
