@@ -11,6 +11,9 @@ try {
 }
 
 export const connectDB = async (): Promise<void> => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
   try {
     const conn = await mongoose.connect(env.MONGODB_URI, {
       serverSelectionTimeoutMS: 5000,
