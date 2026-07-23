@@ -59,7 +59,7 @@ export const ConversionEngine: React.FC<ConversionEngineProps> = ({
     }
   }, [prefilledCandidateCode, setActiveTab]);
 
-  // Mock Direct File Upload
+  // Direct Binary File Upload
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -68,14 +68,15 @@ export const ConversionEngine: React.FC<ConversionEngineProps> = ({
       setUploading(true);
       setErrorMsg(null);
 
-      // Call Express upload token API
-      const res = await apiClient.getUploadToken(file.name, file.type || 'application/pdf');
-      setCandResumeUrl(res.data?.publicUrl || `http://localhost:5000/uploads/resumes/${file.name}`);
+      // Upload actual binary file to Express backend
+      const res = await apiClient.uploadResumeFile(file);
+      const publicUrl = res.data?.publicUrl || res.data?.uploadUrl || `http://localhost:5000/uploads/resumes/${file.name}`;
+      setCandResumeUrl(publicUrl);
       setUploadedFileName(file.name);
     } catch (err: any) {
       console.log('Upload fallback active');
       setUploadedFileName(file.name);
-      setCandResumeUrl(`https://example.com/resumes/${file.name}`);
+      setCandResumeUrl(`http://localhost:5000/uploads/resumes/${file.name}`);
     } finally {
       setUploading(false);
     }

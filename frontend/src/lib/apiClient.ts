@@ -95,12 +95,32 @@ export const apiClient = {
       body: JSON.stringify({ phone }),
     }),
 
-  // Resume Upload Token
+  // Resume Upload Token & Direct File Binary Upload
   getUploadToken: (fileName: string, fileType: string) =>
     fetchApi('/uploads/token', {
       method: 'POST',
       body: JSON.stringify({ fileName, fileType }),
     }),
+
+  uploadResumeFile: async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+    const headers: Record<string, string> = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/uploads/file`, {
+        method: 'POST',
+        body: formData,
+        headers,
+      });
+      return await response.json();
+    } catch {
+      return apiClient.getUploadToken(file.name, file.type || 'application/pdf');
+    }
+  },
 
   // Admin Auth
   loginAdmin: (credentials: { email: string; password: string }) =>
