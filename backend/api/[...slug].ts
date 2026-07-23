@@ -5,10 +5,11 @@ export default async function handler(req: any, res: any) {
   try {
     await connectDB();
 
-    // Vercel serverless functions inside api/ strip the /api prefix from req.url.
-    // Prepend /api if missing so Express route handlers (/api/v1/...) match perfectly.
-    if (req.url && !req.url.startsWith('/api')) {
-      req.url = `/api${req.url}`;
+    // Reconstruct exact requested URL path from Vercel dynamic catch-all slug array
+    if (req.query?.slug) {
+      const slugArray = Array.isArray(req.query.slug) ? req.query.slug : [req.query.slug];
+      const queryString = req.url?.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+      req.url = `/api/${slugArray.join('/')}${queryString}`;
     }
 
     return app(req, res);
