@@ -97,15 +97,6 @@ if (!isServerless) {
   app.use('/api/v1/auth/login', strictLimiter);
 }
 
-// Health Check
-app.get('/api/v1/health', (_req: Request, res: Response) => {
-  res.json({
-    status: 'online',
-    timestamp: new Date().toISOString(),
-    service: 'Next Step Placements API',
-  });
-});
-
 // API Routes
 app.use('/api/v1', routes);
 
