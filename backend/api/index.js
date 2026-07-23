@@ -4,12 +4,13 @@ import { connectDB } from '../dist/config/db.js';
 export default async function handler(req, res) {
   try {
     await connectDB();
-    
-    // Normalize Vercel serverless rewrite URL so Express routes match correctly
-    if (req.url.startsWith('/api/index.js')) {
-      req.url = req.url.replace('/api/index.js', '') || '/';
+
+    // In Vercel rewrites, the original request path is passed in x-forwarded-uri or x-matched-path
+    const originalUrl = req.headers['x-forwarded-uri'] || req.headers['x-matched-path'];
+    if (originalUrl && originalUrl !== '/api/index.js' && originalUrl !== '/api/index') {
+      req.url = originalUrl;
     }
-    
+
     return app(req, res);
   } catch (err) {
     console.error('Serverless Execution Error:', err);
