@@ -10,6 +10,9 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
 
+// Trust Vercel Edge Reverse Proxy for rate-limiting and client IP forwarding
+app.set('trust proxy', 1);
+
 // 1. Helmet Security Guard (Allow cross-origin resource sharing for uploaded resume PDFs)
 app.use(
   helmet({
