@@ -45,6 +45,7 @@ export async function POST(req: Request) {
       success: true,
       data: {
         token,
+        accessToken: token,
         user: {
           id: user._id,
           email: user.email,

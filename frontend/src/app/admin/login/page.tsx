@@ -23,8 +23,9 @@ export default function AdminLoginPage() {
       setLoading(true);
       const res = await apiClient.loginAdmin({ email, password });
 
-      if (res.data?.accessToken) {
-        localStorage.setItem('accessToken', res.data.accessToken);
+      const token = res.data?.token || res.data?.accessToken;
+      if (token) {
+        localStorage.setItem('accessToken', token);
         router.push('/admin/dashboard');
       } else {
         setErrorMsg('Invalid authentication response.');
