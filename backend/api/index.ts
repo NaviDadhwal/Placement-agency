@@ -1,9 +1,15 @@
 import app from '../src/app.js';
 import { connectDB } from '../src/config/db.js';
 
-// Connect DB on serverless cold start
-connectDB().catch((err) => console.error('DB Cold Start Error:', err));
-
-export default function handler(req: any, res: any) {
-  return app(req, res);
+export default async function handler(req: any, res: any) {
+  try {
+    await connectDB();
+    return app(req, res);
+  } catch (err: any) {
+    console.error('Vercel Serverless Function Error:', err);
+    res.status(500).json({
+      success: false,
+      error: { code: 'SERVERLESS_ERROR', message: err.message || 'Internal Server Error' },
+    });
+  }
 }
