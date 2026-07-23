@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       phone,
       preferredLocation,
       industry,
-      resumeUrl: resumeUrl || '',
+      resumeUrl: resumeUrl || 'https://makemyaim.com/uploads/resumes/default_resume.pdf',
       consentGiven: consentGiven !== false,
       status: 'NEW',
     });
