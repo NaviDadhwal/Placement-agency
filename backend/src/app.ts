@@ -97,8 +97,9 @@ if (!isServerless) {
   app.use('/api/v1/auth/login', strictLimiter);
 }
 
-// API Routes
+// API Routes (Mounted at both /api/v1 and / for universal Vercel serverless matching)
 app.use('/api/v1', routes);
+app.use('/', routes);
 
 // 404 Handler
 app.use((_req: Request, res: Response) => {
