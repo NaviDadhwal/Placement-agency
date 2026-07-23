@@ -6,14 +6,6 @@ import adminRoutes from './adminRoutes.js';
 
 const router = Router();
 
-router.get('/health', (_req, res) => {
-  res.json({
-    status: 'online',
-    timestamp: new Date().toISOString(),
-    service: 'Make My Aim Placement Agency API',
-  });
-});
-
 router.use('/auth', authRoutes);
 router.use('/leads', leadRoutes);
 router.use('/uploads', uploadRoutes);
