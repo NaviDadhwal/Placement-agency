@@ -59,7 +59,8 @@ export default function AdminDashboardPage() {
     try {
       setCandLoading(true);
       const res = await apiClient.getCandidates();
-      setCandidates(res.data?.leads || res.data || []);
+      const rawList = res.data?.candidates || res.data?.leads || (Array.isArray(res.data) ? res.data : []);
+      setCandidates(Array.isArray(rawList) ? rawList : []);
     } catch (err: any) {
       console.log('Using offline mock candidate leads');
       setCandidates([
@@ -101,7 +102,8 @@ export default function AdminDashboardPage() {
     try {
       setEmpLoading(true);
       const res = await apiClient.getEmployers();
-      setEmployers(res.data?.leads || res.data || []);
+      const rawList = res.data?.employers || res.data?.leads || (Array.isArray(res.data) ? res.data : []);
+      setEmployers(Array.isArray(rawList) ? rawList : []);
     } catch (err: any) {
       console.log('Using offline mock employer inquiries');
       setEmployers([
@@ -143,13 +145,14 @@ export default function AdminDashboardPage() {
       });
 
       // Update local state
-      setCandidates((prev) =>
-        prev.map((c) =>
+      setCandidates((prev) => {
+        const prevArray = Array.isArray(prev) ? prev : [];
+        return prevArray.map((c) =>
           c._id === selectedCand._id
             ? { ...c, status: newStatus, isSolved, placementNotes, updatedAt: new Date().toISOString() }
             : c
-        )
-      );
+        );
+      });
       setSelectedCand(null);
     } catch (err: any) {
       alert('Failed to update candidate status: ' + err.message);
@@ -167,11 +170,12 @@ export default function AdminDashboardPage() {
     window.open('http://localhost:5000/api/v1/admin/export/employers', '_blank');
   };
 
-  const filteredCandidates = candidates.filter((c) => {
+  const safeCandList = Array.isArray(candidates) ? candidates : [];
+  const filteredCandidates = safeCandList.filter((c) => {
     const matchesSearch =
-      c.fullName.toLowerCase().includes(candSearch.toLowerCase()) ||
-      c.phone.includes(candSearch) ||
-      c.industry.toLowerCase().includes(candSearch.toLowerCase());
+      (c.fullName || '').toLowerCase().includes(candSearch.toLowerCase()) ||
+      (c.phone || '').includes(candSearch) ||
+      (c.industry || '').toLowerCase().includes(candSearch.toLowerCase());
     const matchesStatus = candStatusFilter === 'ALL' || c.status === candStatusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -373,7 +377,7 @@ export default function AdminDashboardPage() {
           <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 space-y-6">
             {empLoading ? (
               <div className="text-center py-12 text-slate-400 text-sm">Loading employer inquiries...</div>
-            ) : employers.length === 0 ? (
+            ) : (Array.isArray(employers) ? employers : []).length === 0 ? (
               <div className="text-center py-12 text-slate-400 text-sm">No corporate employer inquiries logged yet.</div>
             ) : (
               <div className="overflow-x-auto">
@@ -388,7 +392,7 @@ export default function AdminDashboardPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 text-slate-700">
-                    {employers.map((emp) => (
+                    {(Array.isArray(employers) ? employers : []).map((emp) => (
                       <tr key={emp._id} className="hover:bg-slate-50/80 transition-colors">
                         <td className="p-3">
                           <div className="font-bold text-[#0F172A]">{emp.companyName}</div>
