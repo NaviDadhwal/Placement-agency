@@ -21,7 +21,7 @@ const CandidateLeadSchema: Schema = new Schema<ICandidateLead>(
     phone: { type: String, required: true, trim: true },
     preferredLocation: { type: String, required: true, trim: true },
     industry: { type: String, required: true, trim: true },
-    resumeUrl: { type: String, required: true, trim: true, default: '' },
+    resumeUrl: { type: String, required: false, default: '' },
     consentGiven: { type: Boolean, required: true, default: true },
     status: {
       type: String,
