@@ -70,7 +70,7 @@ export const ConversionEngine: React.FC<ConversionEngineProps> = ({
 
       // Call Express upload token API
       const res = await apiClient.getUploadToken(file.name, file.type || 'application/pdf');
-      setCandResumeUrl(res.data?.uploadUrl || `https://example.com/resumes/${file.name}`);
+      setCandResumeUrl(res.data?.publicUrl || `http://localhost:5000/uploads/resumes/${file.name}`);
       setUploadedFileName(file.name);
     } catch (err: any) {
       console.log('Upload fallback active');

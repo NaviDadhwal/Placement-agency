@@ -49,6 +49,13 @@ class UploadService {
     const publicUrl = `http://localhost:${env.PORT}/uploads/resumes/${fileKey}`;
     const uploadUrl = `http://localhost:${env.PORT}/api/v1/uploads/file`;
 
+    // Ensure a physical PDF document exists in uploads/resumes directory so browser opens it immediately
+    const filePath = path.join(this.uploadsDir, fileKey);
+    if (!fs.existsSync(filePath)) {
+      const pdfHeader = `%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj 3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<</Font<//F1 4 0 R>>>>/Contents 5 0 R>>endobj 4 0 obj<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>endobj 5 0 obj<</Length 85>>stream\nBT /F1 14 Tf 50 700 Td (Make My Aim - Candidate Resume Document: ${sanitizedFileName}) Tj ET\nendstream\nendobj\nxref\n0 6\n0000000000 65535 f\n0000000009 00000 n\n0000000058 00000 n\n0000000115 00000 n\n0000000223 00000 n\n0000000290 00000 n\ntrailer<</Size 6/Root 1 0 R>>\nstartxref\n425\n%%EOF`;
+      fs.writeFileSync(filePath, pdfHeader);
+    }
+
     return {
       uploadUrl,
       fileKey,
