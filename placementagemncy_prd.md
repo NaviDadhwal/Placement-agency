@@ -146,6 +146,12 @@ Appears immediately following successful submission of either form:
 * **Contact Details:** Physical office address, official email addresses, direct helpline numbers.
 * **Legal Terms:** Embedded modal for **Privacy Policy & Data Handling Terms** in alignment with Indian DPDP guidelines.
 
+### 4.11 Instant Application Status Checker (`/track` / Header Modal)
+* **Access Point:** Header navigation link (`Track Status`) or dedicated search bar trigger.
+* **UX Flow:** Candidates enter their 10-digit mobile number to view their application status in real-time without account registration.
+* **Privacy & Security Shield:** Full names are masked (e.g., `"Navi D."`), and private asset URLs (resume links) and internal admin placement notes are strictly excluded.
+* **Status States Rendered:** `NEW` (Received), `UNDER_REVIEW` (Under Screening), `SHORTLISTED` (Recommended to Employers), `JOB_PROVIDED` (Placed), `REJECTED` (Closed).
+
 ---
 
 ## 5. File Upload Architecture & Technical Stack
@@ -226,6 +232,11 @@ Upon successful DB insertion of any lead:
   * **Access:** Public (Rate Limited: 10 per 15 min per IP)
   * **Payload:** `{ "companyName": "String", "contactPerson": "String", "email": "String", "phone": "String", "hiringRole": "String", "requirements": "String", "consentGiven": true }`
   * **Success Response (201 Created):** Returns lead object & triggers email/WhatsApp alerts.
+
+* **`POST /api/v1/leads/status`**
+  * **Access:** Public (Rate Limited: 5 per 15 min per IP)
+  * **Payload:** `{ "phone": "9876543210" }`
+  * **Success Response (200 OK):** Returns privacy-shielded lead status: `{ "fullName": "Navi D.", "preferredLocation": "Ludhiana", "industry": "IT & Software", "status": "SHORTLISTED", "isSolved": false, "updatedAt": "2026-07-23T04:00:00.000Z" }`.
 
 #### 5.4.4 Protected Admin Management (`/api/v1/admin`)
 * **`GET /api/v1/admin/candidates`**

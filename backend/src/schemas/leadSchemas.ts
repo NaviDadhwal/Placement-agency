@@ -35,9 +35,18 @@ export const candidateStatusUpdateSchema = z.object({
   placementNotes: z.string().optional(),
 });
 
+export const checkLeadStatusSchema = z.object({
+  phone: z
+    .string()
+    .min(10, 'Phone number must be at least 10 digits')
+    .regex(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/, 'Invalid phone number format'),
+});
+
 export const employerStatusUpdateSchema = z.object({
   status: z.enum(['NEW', 'CONTACTED', 'CLOSED']),
 });
 
 export type CandidateLeadInput = z.infer<typeof candidateLeadSchema>;
 export type EmployerLeadInput = z.infer<typeof employerLeadSchema>;
+export type CheckLeadStatusInput = z.infer<typeof checkLeadStatusSchema>;
+

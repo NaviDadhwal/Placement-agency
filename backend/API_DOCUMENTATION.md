@@ -255,6 +255,40 @@ Registers a corporate hiring inquiry.
 }
 ```
 
+#### `POST /api/v1/leads/status`
+Queries application status for a candidate by phone number. Employs privacy-masking (e.g. `fullName: "Navi D."`) and omits private attachments/notes.
+- **Headers**: `Content-Type: application/json`
+- **Request Body**:
+```json
+{
+  "phone": "9876543210"
+}
+```
+- **Response `200 OK`**:
+```json
+{
+  "success": true,
+  "data": {
+    "fullName": "Navi D.",
+    "preferredLocation": "Ludhiana",
+    "industry": "IT & Software",
+    "status": "SHORTLISTED",
+    "isSolved": false,
+    "updatedAt": "2026-07-23T04:00:00.000Z"
+  }
+}
+```
+- **Error Response `404 Not Found`**:
+```json
+{
+  "success": false,
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "No candidate application found for this phone number."
+  }
+}
+```
+
 ---
 
 ### 3. Authentication & Admin Profile
