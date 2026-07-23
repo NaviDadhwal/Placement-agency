@@ -1,15 +1,10 @@
-import app from '../src/app.js';
-import { connectDB } from '../src/config/db.js';
-
 export default async function handler(req: any, res: any) {
-  try {
-    await connectDB();
-    return app(req, res);
-  } catch (err: any) {
-    console.error('Vercel Serverless Execution Error:', err);
-    res.status(500).json({
-      success: false,
-      error: { code: 'SERVERLESS_ERROR', message: err?.message || 'Serverless Execution Failed' },
-    });
-  }
+  return res.json({
+    method: req.method,
+    url: req.url,
+    originalUrl: req.originalUrl,
+    xForwardedUri: req.headers['x-forwarded-uri'],
+    xMatchedPath: req.headers['x-matched-path'],
+    xVercelForwardedFor: req.headers['x-vercel-forwarded-for'],
+  });
 }
