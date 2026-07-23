@@ -1,3 +1,40 @@
+# Product Requirement Document (PRD)
+
+## 1. Executive Summary & Brand Identity
+* **Project Name:** Next Step Placements
+* **Product Type:** High-Conversion Single-Page Placement Agency Portal & Lead SaaS
+* **Target Region:** North India Industrial Belts (Punjab, Haryana, Himachal Pradesh, Chandigarh)
+* **Core Philosophy:** Zero-friction single-page lead funnel. No forced candidate registration or account creation. Instant phone dialer access and cloud-backed resume submission.
+
+---
+
+## 2. Tech Stack & Infrastructure
+* **Frontend Framework:** Next.js (App Router) + React + Tailwind CSS
+* **Backend Framework:** Node.js + Express.js (REST API Architecture)
+* **Database:** MongoDB Atlas (Mongoose ODM)
+* **Authentication:** Email & Password Admin Auth (JWT Access Tokens + HttpOnly Refresh Cookies)
+* **File Storage:** Direct Cloud Storage (Vercel Blob / AWS S3) via browser pre-signed tokens
+* **Security Pipeline:** Helmet, CORS Allowlist, Rate Limiting, NoSQL Sanitization, Zod Schema Validation
+
+---
+
+## 3. Design System & Color Tokens
+
+| Token Role | Color Name | Hex Code | Application Context |
+| :--- | :--- | :--- | :--- |
+| **Primary Dark** | Midnight Navy | `#161130` | Hero background, top bar, section headers |
+| **Primary Accent** | Vibrant Indigo | `#6C5CE7` | High-contrast CTA buttons (`[Submit Application]`) |
+| **Surface Light** | Pure White | `#FFFFFF` | Form cards, teaser cards, metrics containers |
+| **Surface Tint** | Soft Lavender | `#F8F9FE` | Alternate background section tints |
+| **Text Primary** | Dark Charcoal | `#1E1B2E` | Headlines, form labels, card body text |
+| **Text Muted** | Slate Gray | `#636E72` | Subtitles, secondary metadata, placeholders |
+
+---
+
+## 4. Single-Page Architecture & Layout Breakdown
+
+The platform operates as a unified, single scrolling landing page (`/`):
+
 ┌────────────────────────────────────────────────────────┐
 │ 1. ANTI-FRAUD WARNING BANNER (Sticky Top Bar)          │
 ├────────────────────────────────────────────────────────┤
