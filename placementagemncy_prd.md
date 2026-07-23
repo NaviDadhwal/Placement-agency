@@ -18,16 +18,19 @@
 
 ---
 
-## 3. Design System & Color Tokens
+## 3. Design System & Color Tokens (TalentBridge Theme)
 
 | Token Role | Color Name | Hex Code | Application Context |
 | :--- | :--- | :--- | :--- |
-| **Primary Dark** | Midnight Navy | `#161130` | Hero background, top bar, section headers |
-| **Primary Accent** | Vibrant Indigo | `#6C5CE7` | High-contrast CTA buttons (`[Submit Application]`) |
+| **Canvas Background** | Soft Slate Tint | `#F8FAFC` | Page background, generous clean whitespace |
+| **Primary Accent** | Electric Indigo | `#4F46E5` | Primary CTAs (`[Submit Application]`, `[Find Job]`) |
+| **Primary Hover** | Deepened Indigo | `#4338CA` | Hover state for indigo buttons |
+| **Secondary Accent** | Mint Emerald | `#10B981` | Hotline bar, status badges, placement metrics |
 | **Surface Light** | Pure White | `#FFFFFF` | Form cards, teaser cards, metrics containers |
-| **Surface Tint** | Soft Lavender | `#F8F9FE` | Alternate background section tints |
-| **Text Primary** | Dark Charcoal | `#1E1B2E` | Headlines, form labels, card body text |
-| **Text Muted** | Slate Gray | `#636E72` | Subtitles, secondary metadata, placeholders |
+| **Surface Outline** | Soft Slate Border | `#E2E8F0` | 1px card borders & input outlines |
+| **Text Primary** | Deep Slate | `#0F172A` | Headlines, form labels, card body text |
+| **Text Muted** | Cool Slate Gray | `#64748B` | Subtitles, secondary metadata, placeholders |
+| **Border Radius** | Extra Large Rounded | `rounded-2xl` (16px–24px) | Smooth rounded corners for forms & cards |
 
 ---
 
