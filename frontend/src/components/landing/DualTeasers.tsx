@@ -98,13 +98,16 @@ export const DualTeasers: React.FC<DualTeasersProps> = ({
                     <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">
                       {job.category}
                     </span>
-                    <a
-                      href="#apply"
-                      onClick={() => onApplyForJob(job.category)}
-                      className="text-xs font-bold text-[#4F46E5] hover:text-[#4338CA] flex items-center gap-1"
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onApplyForJob(job.category);
+                        document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="text-xs font-bold text-[#4F46E5] hover:text-[#4338CA] flex items-center gap-1 cursor-pointer"
                     >
                       Apply For Role <ArrowRight className="w-3.5 h-3.5" />
-                    </a>
+                    </button>
                   </div>
                 </div>
               ))}
@@ -149,13 +152,16 @@ export const DualTeasers: React.FC<DualTeasersProps> = ({
                     <span className="text-xs text-emerald-700 flex items-center gap-1 font-medium">
                       <CheckCircle className="w-3.5 h-3.5 text-emerald-500" /> Verified Background
                     </span>
-                    <a
-                      href="#apply"
-                      onClick={() => onRequestCandidate(cand.id)}
-                      className="text-xs font-bold text-slate-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onRequestCandidate(cand.id);
+                        document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="text-xs font-bold text-slate-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
                     >
                       Request Profile <ArrowRight className="w-3.5 h-3.5" />
-                    </a>
+                    </button>
                   </div>
                 </div>
               ))}

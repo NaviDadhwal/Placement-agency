@@ -41,27 +41,32 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Dual Primary Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <a href="#apply" onClick={onSelectCandidateTab}>
-              <Button
-                variant="primary"
-                size="lg"
-                leftIcon={<Briefcase className="w-5 h-5" />}
-                rightIcon={<ArrowRight className="w-4 h-4" />}
-                className="w-full sm:w-auto shadow-lg shadow-indigo-500/20"
-              >
-                Find Your Dream Job
-              </Button>
-            </a>
-            <a href="#apply" onClick={onSelectEmployerTab}>
-              <Button
-                variant="outline"
-                size="lg"
-                leftIcon={<Building2 className="w-5 h-5 text-[#4F46E5]" />}
-                className="w-full sm:w-auto bg-white hover:bg-slate-50 border-slate-300"
-              >
-                Hire Top Talent
-              </Button>
-            </a>
+            <Button
+              variant="primary"
+              size="lg"
+              leftIcon={<Briefcase className="w-5 h-5" />}
+              rightIcon={<ArrowRight className="w-4 h-4" />}
+              className="w-full sm:w-auto shadow-lg shadow-indigo-500/20"
+              onClick={() => {
+                onSelectCandidateTab();
+                document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Find Your Dream Job
+            </Button>
+
+            <Button
+              variant="outline"
+              size="lg"
+              leftIcon={<Building2 className="w-5 h-5 text-[#4F46E5]" />}
+              className="w-full sm:w-auto bg-white hover:bg-slate-50 border-slate-300"
+              onClick={() => {
+                onSelectEmployerTab();
+                document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Hire Top Talent
+            </Button>
           </div>
 
           {/* TalentBridge 3-Step Process Pills */}
