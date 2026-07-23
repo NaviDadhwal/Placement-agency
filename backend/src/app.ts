@@ -20,7 +20,10 @@ app.use(
 // 2. CORS Configuration
 app.use(
   cors({
-    origin: env.FRONTEND_URL,
+    origin: (_origin, callback) => {
+      // Allow all origins (local dev & Vercel production domains)
+      callback(null, true);
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
