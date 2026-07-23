@@ -3,11 +3,13 @@ import dns from 'dns';
 import { env } from './env.js';
 
 // Fix Windows Node.js DNS SRV resolution for MongoDB Atlas
-try {
-  if (dns.setDefaultResultOrder) dns.setDefaultResultOrder('ipv4first');
-  dns.setServers(['8.8.8.8', '1.1.1.1']);
-} catch {
-  // Ignore if setServers fails
+if (process.platform === 'win32') {
+  try {
+    if (dns.setDefaultResultOrder) dns.setDefaultResultOrder('ipv4first');
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+  } catch {
+    // Ignore if setServers fails
+  }
 }
 
 export const connectDB = async (): Promise<void> => {
