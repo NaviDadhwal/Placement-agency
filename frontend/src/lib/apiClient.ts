@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://placement-agency-backend.vercel.app/api/v1';
+const API_BASE_URL = '/api/v1';
 
 export async function fetchApi<T = any>(
   endpoint: string,
