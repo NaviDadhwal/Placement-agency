@@ -61,38 +61,41 @@ app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
-// 7. Global Rate Limiter (100 requests per 15 mins per IP)
-const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    success: false,
-    error: {
-      code: 'TOO_MANY_REQUESTS',
-      message: 'Too many requests from this IP, please try again after 15 minutes.',
-    },
-  },
-});
-app.use(globalLimiter);
+// 7. Global Rate Limiter (Skipped on Vercel Serverless where Edge Protection is active)
+const isServerless = !!process.env.VERCEL;
 
-// 8. Strict Rate Limiter for Lead Submissions & Auth
-const strictLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 50,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    success: false,
-    error: {
-      code: 'TOO_MANY_SUBMISSIONS',
-      message: 'Submission limit reached. Please try again after 15 minutes or call our hotline.',
+if (!isServerless) {
+  const globalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+      success: false,
+      error: {
+        code: 'TOO_MANY_REQUESTS',
+        message: 'Too many requests from this IP, please try again after 15 minutes.',
+      },
     },
-  },
-});
-app.use('/api/v1/leads', strictLimiter);
-app.use('/api/v1/auth/login', strictLimiter);
+  });
+  app.use(globalLimiter);
+
+  const strictLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 50,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+      success: false,
+      error: {
+        code: 'TOO_MANY_SUBMISSIONS',
+        message: 'Submission limit reached. Please try again after 15 minutes or call our hotline.',
+      },
+    },
+  });
+  app.use('/api/v1/leads', strictLimiter);
+  app.use('/api/v1/auth/login', strictLimiter);
+}
 
 // Health Check
 app.get('/api/v1/health', (_req: Request, res: Response) => {
